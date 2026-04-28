@@ -1,0 +1,109 @@
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(249,115,22,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(249,115,22,0.05) 0%, transparent 50%),
+        var(--color-bg);
+}
+
+.auth-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.35s ease;
+}
+
+.auth-card--success {
+    text-align: center;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.auth-card--success h2 { font-size: 1.4rem; }
+.auth-card--success p  { color: var(--color-text-muted); }
+
+.auth-card__header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+.auth-card__icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+.auth-card__title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+.auth-card__subtitle {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.auth-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+.auth-form__field label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+}
+
+.auth-form__error {
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.3);
+    color: var(--color-error);
+    border-radius: var(--radius);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+.auth-form__submit {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background 0.15s, transform 0.1s;
+}
+.auth-form__submit:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+.auth-form__submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.auth-card__footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
