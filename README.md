@@ -1,16 +1,16 @@
-# 🍽️ Meal Planner App
+# Meal Planner App
 
 Aplicación web fullstack serverless para planificar comidas semanales, gestionar recetas y generar listas de compras automáticas.
 
 ---
 
-## 🚀 Deploy
+## Deploy
 
-> **[Ver aplicación en producción →](https://meal-planner-tu-usuario.vercel.app)**
+> **[Ver aplicación en producción →](https://planificador-comida.vercel.app/login)**
 
 ---
 
-## 📋 Descripción
+## Descripción
 
 Meal Planner es una aplicación web que permite a los usuarios:
 
@@ -23,7 +23,7 @@ Todos los datos están asociados al usuario autenticado y almacenados en la nube
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 | Tecnología | Uso | Justificación |
 |---|---|---|
@@ -36,29 +36,29 @@ Todos los datos están asociados al usuario autenticado y almacenados en la nube
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
-### 🔐 Autenticación
+### Autenticación
 - Registro de usuario con email y contraseña
 - Inicio de sesión con manejo de errores
 - Cierre de sesión
 - Rutas protegidas — redirige a login si no hay sesión activa
 - Sesión persistente entre recargas
 
-### 🍲 Gestión de Recetas
+### Gestión de Recetas
 - Crear recetas con nombre e instrucciones
 - Agregar múltiples ingredientes con cantidad y unidad
 - Editar recetas existentes
 - Eliminar recetas
 - Todas las recetas asociadas al usuario autenticado
 
-### 📅 Planificador Semanal
+### Planificador Semanal
 - Grilla de 7 días × 3 momentos (desayuno, almuerzo, cena)
 - Asignar cualquier receta creada a cada celda
 - Guardado automático en la base de datos
 - Plan cargado automáticamente al ingresar
 
-### 🛒 Lista de Compras
+### Lista de Compras
 - Generada automáticamente desde el plan semanal
 - Une ingredientes repetidos entre recetas
 - Suma cantidades del mismo ingrediente y unidad
@@ -67,7 +67,7 @@ Todos los datos están asociados al usuario autenticado y almacenados en la nube
 
 ---
 
-## 🗄️ Base de Datos
+## Base de Datos
 
 ### Diagrama de tablas
 
@@ -94,7 +94,7 @@ Todas las tablas tienen RLS activado. Cada usuario solo puede leer y modificar s
 
 ---
 
-## 👥 Equipo y División de Trabajo
+## Equipo y División de Trabajo
 
 | Integrante | Rama | Responsabilidades |
 |---|---|---|
@@ -103,7 +103,7 @@ Todas las tablas tienen RLS activado. Cada usuario solo puede leer y modificar s
 
 ---
 
-## 🌿 Estrategia de Ramas
+## Estrategia de Ramas
 
 ```
 main       → producción (siempre funcional, desplegada en Vercel)
@@ -119,7 +119,7 @@ alumno2    → rama de trabajo del alumno 2
 
 ---
 
-## ⚙️ Instalación y Uso Local
+## Instalación y Uso Local
 
 ### Requisitos
 - Node.js 18+
@@ -149,15 +149,15 @@ npm run dev
 ### Variables de entorno
 
 ```bash
-VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+VITE_SUPABASE_URL=https://mxntuvuxqfghlrvycwhn.supabase.co
+VITE_SUPABASE_ANON_KEY=sb_publishable_ShD_PvWx_VsMKnyz6McQiw_xfm4Lztj
 ```
 
 Obtener los valores en: **Supabase → Settings → API**
 
 ---
 
-## 📁 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 meal-planner/
@@ -197,7 +197,7 @@ meal-planner/
 
 ---
 
-## 🔄 Scripts Disponibles
+## Scripts Disponibles
 
 ```bash
 npm run dev      # Servidor de desarrollo en localhost:5173
@@ -207,7 +207,7 @@ npm run preview  # Preview del build de producción
 
 ---
 
-## 📌 Decisiones Técnicas
+## Decisiones Técnicas
 
 **¿Por qué Supabase y no Firebase?**
 Supabase usa PostgreSQL relacional, lo que permite modelar correctamente las relaciones entre recetas, ingredientes y el plan semanal. El Row Level Security de PostgreSQL es más expresivo que las reglas de Firestore.
