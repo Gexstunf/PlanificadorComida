@@ -1,107 +1,219 @@
-# 🍽️ Meal Planner
+# 🍽️ Meal Planner App
 
-Aplicación web para planificar comidas semanales, gestionar recetas y llevar un seguimiento de la alimentación diaria.
-
-🔗 **Demo en vivo:** [planificador-comida.vercel.app](https://planificador-comida.vercel.app/login)
+Aplicación web fullstack serverless para planificar comidas semanales, gestionar recetas y generar listas de compras automáticas.
 
 ---
 
-## Tecnologías utilizadas
+## 🚀 Deploy
 
-| Tecnología | Versión | Uso |
+> **[Ver aplicación en producción →](https://meal-planner-tu-usuario.vercel.app)**
+
+---
+
+## 📋 Descripción
+
+Meal Planner es una aplicación web que permite a los usuarios:
+
+- Registrarse e iniciar sesión de forma segura
+- Crear y gestionar sus propias recetas con ingredientes detallados
+- Planificar sus comidas semanales en una grilla de 7 días
+- Generar automáticamente una lista de compras basada en el plan semanal
+
+Todos los datos están asociados al usuario autenticado y almacenados en la nube, accesibles desde cualquier dispositivo.
+
+---
+
+## 🛠️ Stack Tecnológico
+
+| Tecnología | Uso | Justificación |
 |---|---|---|
-| [React](https://react.dev/) | 19 | Librería de UI basada en componentes |
-| [Vite](https://vitejs.dev/) | 8 | Bundler y servidor de desarrollo con HMR |
-| [React Router DOM](https://reactrouter.com/) | v7 | Manejo de rutas del lado del cliente |
-| [Supabase](https://supabase.com/) | — | Base de datos PostgreSQL, autenticación y tiempo real |
-| [ESLint](https://eslint.org/) | — | Linting del código JavaScript/JSX |
+| **React 18** | Frontend SPA | Componentes reutilizables, hooks, estado reactivo |
+| **Vite** | Bundler | Desarrollo rápido, HMR, build optimizado |
+| **React Router v6** | Navegación | Rutas protegidas, navegación declarativa |
+| **Supabase Auth** | Autenticación | Registro, login, sesión persistente sin backend propio |
+| **Supabase PostgreSQL** | Base de datos | Relacional, Row Level Security, queries SQL |
+| **Vercel** | Deploy | CI/CD automático desde GitHub, edge network |
 
 ---
 
-## Estructura del proyecto
+## ✨ Funcionalidades
+
+### 🔐 Autenticación
+- Registro de usuario con email y contraseña
+- Inicio de sesión con manejo de errores
+- Cierre de sesión
+- Rutas protegidas — redirige a login si no hay sesión activa
+- Sesión persistente entre recargas
+
+### 🍲 Gestión de Recetas
+- Crear recetas con nombre e instrucciones
+- Agregar múltiples ingredientes con cantidad y unidad
+- Editar recetas existentes
+- Eliminar recetas
+- Todas las recetas asociadas al usuario autenticado
+
+### 📅 Planificador Semanal
+- Grilla de 7 días × 3 momentos (desayuno, almuerzo, cena)
+- Asignar cualquier receta creada a cada celda
+- Guardado automático en la base de datos
+- Plan cargado automáticamente al ingresar
+
+### 🛒 Lista de Compras
+- Generada automáticamente desde el plan semanal
+- Une ingredientes repetidos entre recetas
+- Suma cantidades del mismo ingrediente y unidad
+- Marcar ítems como comprados con checkbox
+- Separación visual entre pendientes y comprados
+
+---
+
+## 🗄️ Base de Datos
+
+### Diagrama de tablas
 
 ```
-Meal-Planner/
-└── meal-planner/
-    ├── public/              # Archivos estáticos públicos
-    ├── src/
-    │   ├── assets/          # Imágenes, íconos y recursos estáticos
-    │   ├── App.jsx          # Componente raíz de la aplicación
-    │   ├── App.css          # Estilos del componente raíz
-    │   ├── index.css        # Estilos globales
-    │   └── main.jsx         # Punto de entrada de React
-    ├── index.html           # HTML base
-    ├── vite.config.js       # Configuración de Vite
-    ├── eslint.config.js     # Configuración de ESLint
-    └── package.json         # Dependencias y scripts
+auth.users (Supabase)
+    └── recipes
+            └── recipe_ingredients
+    └── meal_plans
+            └── meal_plan_entries ──→ recipes
 ```
 
+### Tablas
+
+| Tabla | Descripción |
+|---|---|
+| `recipes` | Recetas del usuario (nombre, instrucciones) |
+| `recipe_ingredients` | Ingredientes por receta (nombre, cantidad, unidad) |
+| `meal_plans` | Plan semanal por usuario y semana |
+| `meal_plan_entries` | Asignación de receta por día y momento del día |
+
+### Seguridad — Row Level Security
+
+Todas las tablas tienen RLS activado. Cada usuario solo puede leer y modificar sus propios datos, incluso si alguien obtuviera la clave pública de Supabase.
+
 ---
 
-## Requisitos previos
+## 👥 Equipo y División de Trabajo
 
-- Node.js 18 o superior
-- npm 9 o superior
-- Cuenta en [Supabase](https://supabase.com) con un proyecto creado
+| Integrante | Rama | Responsabilidades |
+|---|---|---|
+| **Alumno 1** | `alumno1` | Autenticación, sesión, AuthContext, Navbar, ProtectedRoute, rutas, setup del proyecto |
+| **Alumno 2** | `alumno2` | Supabase DB, CRUD de recetas, planificador semanal, lista de compras, supabaseClient |
 
 ---
 
-## Instalación y uso local
+## 🌿 Estrategia de Ramas
 
-1. Clonar el repositorio:
+```
+main       → producción (siempre funcional, desplegada en Vercel)
+develop    → integración de ambos alumnos
+alumno1    → rama de trabajo del alumno 1
+alumno2    → rama de trabajo del alumno 2
+```
+
+**Flujo de trabajo:**
+1. Cada alumno trabaja en su rama personal
+2. Se integra a `develop` mediante Pull Requests
+3. Una vez estable, `develop` se mergea a `main`
+
+---
+
+## ⚙️ Instalación y Uso Local
+
+### Requisitos
+- Node.js 18+
+- Cuenta en [Supabase](https://supabase.com)
+
+### Pasos
 
 ```bash
-git clone https://github.com/Gexstunf/Meal-Planner.git
-cd Meal-Planner/meal-planner
-```
+# 1. Clonar el repositorio
+git clone https://github.com/tu-usuario/meal-planner
+cd meal-planner
 
-2. Instalar las dependencias:
-
-```bash
+# 2. Instalar dependencias
 npm install
-```
 
-3. Configurar las variables de entorno. Crear un archivo `.env` en la carpeta `meal-planner/` con las credenciales de Supabase:
+# 3. Configurar variables de entorno
+cp .env.example .env
+# Completar .env con las credenciales de Supabase
 
-```env
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=tu-anon-key
-```
+# 4. Crear las tablas en Supabase
+# Copiar y ejecutar el SQL de /docs/database.sql en el SQL Editor de Supabase
 
-4. Iniciar el servidor de desarrollo:
-
-```bash
+# 5. Iniciar el servidor de desarrollo
 npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:5173`.
+### Variables de entorno
+
+```bash
+VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+Obtener los valores en: **Supabase → Settings → API**
 
 ---
 
-## Scripts disponibles
+## 📁 Estructura del Proyecto
 
-| Script | Descripción |
-|---|---|
-| `npm run dev` | Inicia el servidor de desarrollo con HMR |
-| `npm run build` | Genera el build de producción en `/dist` |
-| `npm run preview` | Sirve el build de producción localmente |
-| `npm run lint` | Analiza el código con ESLint |
+```
+meal-planner/
+├── src/
+│   ├── context/
+│   │   └── AuthContext.jsx        # Auth provider + useAuth hook
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Register.jsx
+│   │   ├── Recipes.jsx
+│   │   ├── Planner.jsx
+│   │   └── ShoppingList.jsx
+│   ├── components/
+│   │   ├── auth/
+│   │   │   ├── Navbar.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── recipes/
+│   │   │   ├── RecipeCard.jsx
+│   │   │   └── RecipeForm.jsx
+│   │   └── planner/
+│   ├── hooks/
+│   │   ├── useRecipes.js
+│   │   ├── usePlanner.js
+│   │   └── useShoppingList.js
+│   ├── lib/
+│   │   └── supabaseClient.js
+│   ├── styles/
+│   │   ├── global.css
+│   │   └── auth.css
+│   └── App.jsx
+├── .env.example
+├── .gitignore
+├── index.html
+├── package.json
+└── vite.config.js
+```
 
 ---
 
-## Deploy
+## 🔄 Scripts Disponibles
 
-El proyecto está desplegado en [Vercel](https://vercel.com/). Cada push a la rama `main` genera un nuevo deploy automáticamente.
+```bash
+npm run dev      # Servidor de desarrollo en localhost:5173
+npm run build    # Build de producción
+npm run preview  # Preview del build de producción
+```
 
-Para deployar tu propia instancia:
-
-1. Importar el repositorio desde el dashboard de Vercel.
-2. Configurar las variables de entorno (`VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`) en **Settings → Environment Variables**.
-3. Asegurarse de que el directorio raíz apunte a `meal-planner/`.
-
-https://planificador-comida.vercel.app/login
 ---
 
-## Estado del proyecto
+## 📌 Decisiones Técnicas
 
-🚧 En desarrollo activo — base configurada con React + Vite + Supabase y desplegada en producción.
+**¿Por qué Supabase y no Firebase?**
+Supabase usa PostgreSQL relacional, lo que permite modelar correctamente las relaciones entre recetas, ingredientes y el plan semanal. El Row Level Security de PostgreSQL es más expresivo que las reglas de Firestore.
+
+**¿Por qué la lista de compras no se persiste en la base de datos?**
+La lista de compras es datos derivados del plan semanal — siempre se puede recalcular. Persistirla crearía duplicación de datos y problemas de sincronización. El cálculo con `useMemo` es instantáneo y mantiene la lista siempre actualizada.
+
+**¿Por qué hooks personalizados?**
+Encapsular la lógica en `useRecipes`, `usePlanner` mantiene los componentes enfocados en la presentación. Si cambia la base de datos, solo se modifican los hooks.
