@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import Navbar from './components/auth/Navbar'
+import Profile from './pages/Profile'
 
 // Páginas de Alumno 1
 import Login    from './pages/Login'
@@ -33,6 +34,9 @@ export default function App() {
             <Route path="/shopping" element={
               <ProtectedRoute><ShoppingList /></ProtectedRoute>
             } />
+            <Route path="/profile" element={
+              <ProtectedRoute><Profile /></ProtectedRoute>
+            } />  
 
             {/* Redireccion por defecto */}
             <Route path="*" element={<Navigate to="/recipes" replace />} />
