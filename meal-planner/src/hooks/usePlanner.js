@@ -9,7 +9,7 @@ function getWeekStart() {
     return monday.toISOString().split('T')[0]
 }
 
-export function usePlanner(userId) {
+export function usePlanner(userId, weekStart) {
     const [planId, setPlanId] = useState(null)
     const [entries, setEntries] = useState({})
     const [loading, setLoading] = useState(true)
