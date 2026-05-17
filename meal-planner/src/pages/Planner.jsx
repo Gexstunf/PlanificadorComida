@@ -24,33 +24,40 @@ function addWeeks(date, n) {
 
 function formatLabel(date) {
   return date.toLocaleDateString('es-AR', {
-    day: '2-digit', month: 'long', year: 'numeric'
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
   })
 }
 
 export default function Planner() {
   const { user } = useAuth()
   const { recipes } = useRecipes(user?.id)
-
   const [currentWeek, setCurrentWeek] = useState(() => getMonday(new Date()))
+
   const weekStart = formatWeekStart(currentWeek)
   const { entries, loading, setEntry } = usePlanner(user?.id, weekStart)
 
   const goToPrev = () => setCurrentWeek(w => addWeeks(w, -1))
   const goToNext = () => setCurrentWeek(w => addWeeks(w, +1))
-  const goToNow  = () => setCurrentWeek(getMonday(new Date()))
-
+  const goToNow = () => setCurrentWeek(getMonday(new Date()))
   const isCurrentWeek = weekStart === formatWeekStart(getMonday(new Date()))
 
   const handleChange = async (dayIndex, mealKey, recipeId) => {
     await setEntry(dayIndex, mealKey, recipeId || null)
   }
 
-  if (loading) return <p>Cargando planificador...</p>
+  if (loading) return <p className="loading-copy">Cargando planificador...</p>
 
   return (
     <div className="planner-page">
-      <h1>Planificador Semanal</h1>
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">Organización semanal</p>
+          <h1>Planificador semanal</h1>
+          <p>Asigná recetas por día y comida para armar tu semana sin improvisar.</p>
+        </div>
+      </div>
 
       <div className="planner-nav">
         <button onClick={goToPrev}>← Semana anterior</button>
@@ -63,11 +70,7 @@ export default function Planner() {
         <button onClick={goToNext}>Semana siguiente →</button>
       </div>
 
-      <PlannerGrid
-        recipes={recipes}
-        entries={entries}
-        onEntryChange={handleChange}
-      />
+      <PlannerGrid recipes={recipes} entries={entries} onEntryChange={handleChange} />
     </div>
   )
 }
