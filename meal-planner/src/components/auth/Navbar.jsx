@@ -42,9 +42,14 @@ export default function Navbar() {
                         className={location.pathname === '/shopping' ? 'active' : ''}
                     >
                 Lista de compras
-                </Link>
+                    </Link>
+                    <Link
+                        to="/profile"
+                        className={location.pathname === '/profile' ? 'active' : ''}
+                    >
+                Mi perfil
+                    </Link>
             </div>
-
             <div className="navbar__user">
                 <span className="navbar__email">{user?.email}</span>
                 <button onClick={handleLogout} className="navbar__logout">

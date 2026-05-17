@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useRecipes } from '../hooks/useRecipes'
 import { usePlanner } from '../hooks/usePlanner'
+import ShoppingItem from '../components/shopping/ShoppingItem'
 
 export default function ShoppingList() {
     const { user } = useAuth()
