@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import { useAuth } from '../../context/AuthContext'
+import { useAuth } from '../../hooks/useAuth'
 import { uploadRecipeImage } from '../../hooks/useRecipeImage'
 import IngredientRow from './IngredientRow'
 
-const UNITS = ['g', 'kg', 'ml', 'L', 'taza', 'cda', 'cdta', 'unidad']
 const emptyIngredient = () => ({ name: '', quantity: '', unit: 'g' })
 
 export default function RecipeForm({ initialData, onSubmit, onCancel }) {

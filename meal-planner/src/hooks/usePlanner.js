@@ -9,50 +9,56 @@ function getWeekStart() {
     return monday.toISOString().split('T')[0]
 }
 
-export function usePlanner(userId, weekStart) {
+export function usePlanner(userId, selectedWeekStart) {
     const [planId, setPlanId] = useState(null)
     const [entries, setEntries] = useState({})
     const [loading, setLoading] = useState(true)
-    const weekStart = getWeekStart()
+    const weekStart = selectedWeekStart ?? getWeekStart()
 
     const fetchPlan = useCallback(async () => {
         if (!userId) return
         setLoading(true)
 
-    let { data: plan } = await supabase
-        .from('meal_plans')
-        .select('id')
-        .eq('user_id', userId)
-        .eq('week_start', weekStart)
-        .maybeSingle()
-
-    if (!plan) {
-        const { data: newPlan } = await supabase
+        let { data: plan } = await supabase
             .from('meal_plans')
-            .insert({ user_id: userId, week_start: weekStart })
-            .select()
-            .single()
-        plan = newPlan
-    }
+            .select('id')
+            .eq('user_id', userId)
+            .eq('week_start', weekStart)
+            .maybeSingle()
 
-    setPlanId(plan.id)
+        if (!plan) {
+            const { data: newPlan } = await supabase
+                .from('meal_plans')
+                .insert({ user_id: userId, week_start: weekStart })
+                .select()
+                .single()
+            plan = newPlan
+        }
 
-    const { data: planEntries } = await supabase
-        .from('meal_plan_entries')
-        .select('*')
-        .eq('meal_plan_id', plan.id)
+        setPlanId(plan.id)
 
-    const map = {}
-    planEntries?.forEach(e => {
-        map[`${e.day_of_week}-${e.meal_type}`] = e.recipe_id
-    })
+        const { data: planEntries } = await supabase
+            .from('meal_plan_entries')
+            .select('*')
+            .eq('meal_plan_id', plan.id)
 
-    setEntries(map)
-    setLoading(false)
+        const map = {}
+        planEntries?.forEach(e => {
+            map[`${e.day_of_week}-${e.meal_type}`] = e.recipe_id
+        })
+
+        setEntries(map)
+        setLoading(false)
 
     }, [userId, weekStart])
 
-    useEffect(() => { fetchPlan() }, [fetchPlan])
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchPlan()
+        }, 0)
+
+        return () => clearTimeout(timer)
+    }, [fetchPlan])
 
     const setEntry = async (dayOfWeek, mealType, recipeId) => {
         const key = `${dayOfWeek}-${mealType}`

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { useRecipes } from '../hooks/useRecipes'
 import { usePlanner } from '../hooks/usePlanner'
 import PlannerGrid from '../components/planner/PlannerGrid'

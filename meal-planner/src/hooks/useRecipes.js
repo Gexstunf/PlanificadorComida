@@ -25,13 +25,19 @@ export function useRecipes(userId) {
 
     }, [userId])
 
-    useEffect(() => { fetchRecipes() }, [fetchRecipes])
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchRecipes()
+        }, 0)
+
+        return () => clearTimeout(timer)
+    }, [fetchRecipes])
 
     // create
-    const createRecipe = async ({ name, instructions, ingredients }) => {
+    const createRecipe = async ({ name, instructions, ingredients, image_url }) => {
         const { data: recipe, error: recipeError } = await supabase
             .from('recipes')
-            .insert({ name, instructions, user_id: userId })
+            .insert({ name, instructions, image_url, user_id: userId })
             .select()
             .single()
 
@@ -57,10 +63,10 @@ export function useRecipes(userId) {
     }
 
     // update 
-    const updateRecipe = async (recipeId, { name, instructions, ingredients }) => {
+    const updateRecipe = async (recipeId, { name, instructions, ingredients, image_url }) => {
         const { error: recipeError } = await supabase
             .from('recipes')
-            .update({ name, instructions })
+            .update({ name, instructions, image_url })
             .eq('id', recipeId)
 
         if (recipeError) throw new Error(recipeError.message)

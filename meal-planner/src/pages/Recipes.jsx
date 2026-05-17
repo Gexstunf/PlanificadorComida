@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { useRecipes } from "../hooks/useRecipes";
 import RecipeForm from "../components/recipes/RecipeForm";
 import RecipeCard from "../components/recipes/RecipeCard";
@@ -11,7 +11,7 @@ export default function Recipes() {
     const [showForm, setShowForm] = useState(false)
     const [editingRecipe, setEditingRecipe] = useState(null)
 
-    const handleSumit = async (formData) => {
+    const handleSubmit = async (formData) => {
         try {
             if (editingRecipe) {
                 await updateRecipe(editingRecipe.id, formData)
