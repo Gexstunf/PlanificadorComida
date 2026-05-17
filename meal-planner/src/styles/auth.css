@@ -3,16 +3,28 @@
   min-height: 100vh;
   place-items: center;
   padding: 2rem;
-  background: var(--color-muted-surface);
+  background:
+    linear-gradient(135deg, rgba(17, 19, 20, 0.94) 0 44%, rgba(47, 111, 94, 0.16) 44% 100%),
+    var(--color-muted-surface);
 }
 
 .auth-card {
+  position: relative;
+  overflow: hidden;
   width: min(100%, 430px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
   box-shadow: var(--shadow);
-  padding: 2rem;
+  padding: 2.1rem;
+}
+
+.auth-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
 }
 
 .auth-card--success {
@@ -32,7 +44,7 @@
   width: 56px;
   height: 56px;
   place-items: center;
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--color-primary);
   color: white;
   font-size: 1rem;
@@ -105,12 +117,33 @@
 .profile-page {
   display: flex;
   justify-content: center;
-  padding-top: 1rem;
+  padding-top: 1.5rem;
 }
 
 .profile-card {
+  position: relative;
+  overflow: hidden;
   width: min(100%, 520px);
-  padding: 1.5rem;
+  padding: 1.55rem;
+}
+
+.profile-card__header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.profile-avatar {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--color-primary);
+  color: white;
+  font-weight: 900;
 }
 
 .profile-card h1 {

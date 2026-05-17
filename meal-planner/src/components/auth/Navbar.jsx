@@ -28,10 +28,22 @@ export default function Navbar() {
       </div>
 
       <div className="navbar__links">
-        <Link to="/recipes" className={location.pathname === '/recipes' ? 'active' : ''}>Recetas</Link>
-        <Link to="/planner" className={location.pathname === '/planner' ? 'active' : ''}>Planificador</Link>
-        <Link to="/shopping" className={location.pathname === '/shopping' ? 'active' : ''}>Compras</Link>
-        <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>Perfil</Link>
+        <Link to="/recipes" className={location.pathname === '/recipes' ? 'active' : ''}>
+          <span className="nav-icon">R</span>
+          Recetas
+        </Link>
+        <Link to="/planner" className={location.pathname === '/planner' ? 'active' : ''}>
+          <span className="nav-icon">P</span>
+          Planificador
+        </Link>
+        <Link to="/shopping" className={location.pathname === '/shopping' ? 'active' : ''}>
+          <span className="nav-icon">C</span>
+          Compras
+        </Link>
+        <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
+          <span className="nav-icon">U</span>
+          Perfil
+        </Link>
       </div>
 
       <div className="navbar__user">

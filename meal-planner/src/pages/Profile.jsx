@@ -4,11 +4,11 @@ import { supabase } from '../lib/supabaseClient'
 
 export default function Profile() {
   const { user } = useAuth()
-  const [email, setEmail]       = useState(user?.email || '')
+  const [email, setEmail] = useState(user?.email || '')
   const [password, setPassword] = useState('')
-  const [success, setSuccess]   = useState(null)
-  const [error, setError]       = useState(null)
-  const [loading, setLoading]   = useState(false)
+  const [success, setSuccess] = useState(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const handleUpdate = async (e) => {
     e.preventDefault()
@@ -41,10 +41,16 @@ export default function Profile() {
   return (
     <div className="profile-page">
       <div className="profile-card">
-        <h1>Mi perfil</h1>
-        <p className="profile-email-label">
-          Usuario actual: <strong>{user?.email}</strong>
-        </p>
+        <div className="profile-card__header">
+          <span className="profile-avatar">U</span>
+          <div>
+            <p className="eyebrow">Cuenta</p>
+            <h1>Mi perfil</h1>
+            <p className="profile-email-label">
+              Usuario actual: <strong>{user?.email}</strong>
+            </p>
+          </div>
+        </div>
 
         <form onSubmit={handleUpdate} className="auth-form">
           {error && <p className="auth-form__error">{error}</p>}
