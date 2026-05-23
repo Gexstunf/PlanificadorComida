@@ -1,37 +1,39 @@
-export default function RecipeCard({ recipe, onEdit, onDelete }) {
+﻿import Icon from '../ui/Icon'
+import { getRecipeMeta } from '../../lib/nutrition'
+
+export default function RecipeCard({ recipe, onEdit, onDelete, favorite, onFavorite }) {
+  const meta = getRecipeMeta(recipe)
+
   return (
-    <article className="recipe-card">
-      {recipe.image_url ? (
-        <img src={recipe.image_url} alt={recipe.name} className="recipe-card__image" />
-      ) : (
-        <div className="recipe-card__image recipe-card__image--empty">
-          <span>{recipe.name?.slice(0, 1) || 'R'}</span>
-        </div>
-      )}
+    <article className="recipe-card premium-card">
+      <div className="recipe-card__media">
+        {recipe.image_url ? <img src={recipe.image_url} alt={recipe.name} /> : <div className="recipe-card__fallback">{recipe.name?.slice(0, 1) || 'R'}</div>}
+        <button className={`favorite-button ${favorite ? 'active' : ''}`} onClick={onFavorite} aria-label="Toggle favorite"><Icon name="favorite" /></button>
+      </div>
 
       <div className="recipe-card__body">
-        <div className="recipe-card__header">
-          <h3 className="recipe-card__name">{recipe.name}</h3>
-          <div className="recipe-card__actions">
-            <button onClick={onEdit} className="btn btn--secondary btn--sm">Editar</button>
-            <button onClick={onDelete} className="btn btn--danger btn--sm">Eliminar</button>
-          </div>
+        <div className="recipe-card__topline">
+          <span>{meta.difficulty}</span>
+          <span><Icon name="clock" /> {meta.prepTime} min</span>
+        </div>
+        <h3>{recipe.name}</h3>
+        {recipe.instructions && <p>{recipe.instructions}</p>}
+
+        <div className="macro-pills">
+          <span><Icon name="fire" /> {meta.calories} kcal</span>
+          <span><Icon name="protein" /> {meta.protein}g</span>
+          <span><Icon name="carbs" /> {meta.carbs}g</span>
+          <span><Icon name="fat" /> {meta.fat}g</span>
         </div>
 
-        {recipe.instructions && (
-          <p className="recipe-card__instructions">{recipe.instructions}</p>
-        )}
+        <div className="tag-row">
+          {meta.tags.map(tag => <span key={tag}>{tag}</span>)}
+        </div>
 
-        {recipe.recipe_ingredients?.length > 0 && (
-          <div className="recipe-card__ingredients">
-            <h4>Ingredientes</h4>
-            <ul>
-              {recipe.recipe_ingredients.slice(0, 8).map((ing, i) => (
-                <li key={i}>{ing.name} - {ing.quantity} {ing.unit}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <div className="recipe-card__actions">
+          <button onClick={onEdit} className="btn btn--secondary btn--sm">Edit</button>
+          <button onClick={onDelete} className="btn btn--danger btn--sm">Delete</button>
+        </div>
       </div>
     </article>
   )

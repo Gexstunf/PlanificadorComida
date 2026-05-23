@@ -1,219 +1,206 @@
-# Meal Planner App
+﻿# Meal Planner App
 
-Aplicación web fullstack serverless para planificar comidas semanales, gestionar recetas y generar listas de compras automáticas.
-
----
+Aplicacion web fullstack serverless para planificar comidas semanales, gestionar recetas, controlar nutricion y generar listas de compras automaticas.
 
 ## Deploy
 
-> **[Ver aplicación en producción →](https://planificador-comida.vercel.app/login)**
+[Ver aplicacion en produccion](https://planificador-comida.vercel.app/login)
 
----
+## Descripcion
 
-## Descripción
+Meal Planner es una plataforma de productividad y nutricion construida con React, Vite y Supabase. La app permite organizar recetas, planificar la semana completa, calcular una lista de compras inteligente y visualizar metricas nutricionales con una interfaz oscura, moderna y orientada a uso diario.
 
-Meal Planner es una aplicación web que permite a los usuarios:
+Cada usuario trabaja con sus propios datos autenticados mediante Supabase Auth. Las recetas, planes semanales y configuraciones quedan asociadas al usuario y protegidas con Row Level Security.
 
-- Registrarse e iniciar sesión de forma segura
-- Crear y gestionar sus propias recetas con ingredientes detallados
-- Planificar sus comidas semanales en una grilla de 7 días
-- Generar automáticamente una lista de compras basada en el plan semanal
+## Funcionalidades principales
 
-Todos los datos están asociados al usuario autenticado y almacenados en la nube, accesibles desde cualquier dispositivo.
+### Autenticacion
 
----
+- Registro e inicio de sesion con email y contrasena.
+- Sesion persistente entre recargas.
+- Rutas protegidas para recetas, planner, compras, dashboard y perfil.
+- Cierre de sesion desde el shell principal.
 
-## Stack Tecnológico
+### Dashboard
 
-| Tecnología | Uso | Justificación |
-|---|---|---|
-| **React 18** | Frontend SPA | Componentes reutilizables, hooks, estado reactivo |
-| **Vite** | Bundler | Desarrollo rápido, HMR, build optimizado |
-| **React Router v6** | Navegación | Rutas protegidas, navegación declarativa |
-| **Supabase Auth** | Autenticación | Registro, login, sesión persistente sin backend propio |
-| **Supabase PostgreSQL** | Base de datos | Relacional, Row Level Security, queries SQL |
-| **Vercel** | Deploy | CI/CD automático desde GitHub, edge network |
+- Resumen semanal de comidas planificadas.
+- Promedio diario de calorias y proteina.
+- Visualizacion de macros inspirada en Cronometer.
+- Proximas comidas y recetas recientes.
+- Accesos rapidos al planificador y al recetario.
 
----
+### Recetas
 
-## Funcionalidades
+- Crear, editar y eliminar recetas.
+- Ingredientes con cantidad y unidad.
+- Imagen por receta.
+- Campos de nutricion real: calorias, proteina, carbohidratos, grasas, tiempo de preparacion y dificultad.
+- Fallback automatico a estimaciones nutricionales cuando no hay datos reales.
+- Filtros por alto contenido proteico, vegetariano, rapido, economico y favoritos.
+- Favoritos con sincronizacion opcional en Supabase y fallback local.
+- Busqueda/importacion de recetas externas.
 
-### Autenticación
-- Registro de usuario con email y contraseña
-- Inicio de sesión con manejo de errores
-- Cierre de sesión
-- Rutas protegidas — redirige a login si no hay sesión activa
-- Sesión persistente entre recargas
+### Planificador semanal
 
-### Gestión de Recetas
-- Crear recetas con nombre e instrucciones
-- Agregar múltiples ingredientes con cantidad y unidad
-- Editar recetas existentes
-- Eliminar recetas
-- Todas las recetas asociadas al usuario autenticado
+- Calendario semanal de 7 dias por desayuno, almuerzo y cena.
+- Drag and drop avanzado con `@dnd-kit`.
+- Soporte para pointer, touch y teclado.
+- Dock de recetas para agregar comidas rapidamente.
+- Guardado automatico de entradas en Supabase.
+- Resumen de cobertura semanal, calorias y proteina.
+- Navegacion por semana y tabs moviles por dia.
 
-### Planificador Semanal
-- Grilla de 7 días × 3 momentos (desayuno, almuerzo, cena)
-- Asignar cualquier receta creada a cada celda
-- Guardado automático en la base de datos
-- Plan cargado automáticamente al ingresar
+### Lista de compras inteligente
 
-### Lista de Compras
-- Generada automáticamente desde el plan semanal
-- Une ingredientes repetidos entre recetas
-- Suma cantidades del mismo ingrediente y unidad
-- Marcar ítems como comprados con checkbox
-- Separación visual entre pendientes y comprados
+- Generada automaticamente desde el plan semanal.
+- Fusiona ingredientes duplicados por nombre y unidad.
+- Categoriza ingredientes automaticamente: vegetales, proteinas, lacteos, granos, despensa, fruta y otros.
+- Permite marcar items como comprados.
+- Persistencia opcional de checks en Supabase y fallback local.
+- Panel de progreso de compra.
 
----
+### Perfil y objetivos
 
-## Base de Datos
+- Actualizacion de email y contrasena.
+- Objetivos nutricionales diarios: calorias y proteina.
+- Presupuesto semanal.
+- Preferencias alimentarias y restricciones.
+- Sincronizacion opcional en Supabase y fallback local.
 
-### Diagrama de tablas
+## Stack tecnologico
 
-```
-auth.users (Supabase)
-    └── recipes
-            └── recipe_ingredients
-    └── meal_plans
-            └── meal_plan_entries ──→ recipes
-```
-
-### Tablas
-
-| Tabla | Descripción |
+| Tecnologia | Uso |
 |---|---|
-| `recipes` | Recetas del usuario (nombre, instrucciones) |
-| `recipe_ingredients` | Ingredientes por receta (nombre, cantidad, unidad) |
-| `meal_plans` | Plan semanal por usuario y semana |
-| `meal_plan_entries` | Asignación de receta por día y momento del día |
+| React | Frontend SPA |
+| Vite | Desarrollo, build y HMR |
+| React Router | Navegacion y rutas protegidas |
+| Supabase Auth | Autenticacion |
+| Supabase PostgreSQL | Persistencia de datos |
+| Row Level Security | Seguridad por usuario |
+| Framer Motion | Animaciones y microinteracciones |
+| Lucide React | Iconografia |
+| dnd-kit | Drag and drop accesible y tactil |
+| TailwindCSS + shadcn-compatible config | Base de sistema de diseno |
+| Vitest | Pruebas unitarias |
+| Vercel | Deploy |
 
-### Seguridad — Row Level Security
+## Base de datos
 
-Todas las tablas tienen RLS activado. Cada usuario solo puede leer y modificar sus propios datos, incluso si alguien obtuviera la clave pública de Supabase.
+Modelo principal:
 
----
-
-## Equipo y División de Trabajo
-
-| Integrante | Rama | Responsabilidades |
-|---|---|---|
-| **Alumno 1** | `alumno1` | Autenticación, sesión, AuthContext, Navbar, ProtectedRoute, rutas, setup del proyecto |
-| **Alumno 2** | `alumno2` | Supabase DB, CRUD de recetas, planificador semanal, lista de compras, supabaseClient |
-
----
-
-## Estrategia de Ramas
-
+```text
+auth.users
+  ├─ recipes
+  │   └─ recipe_ingredients
+  ├─ meal_plans
+  │   └─ meal_plan_entries -> recipes
+  ├─ favorite_recipes
+  ├─ user_nutrition_goals
+  └─ shopping_checks
 ```
-main       → producción (siempre funcional, desplegada en Vercel)
-develop    → integración de ambos alumnos
-alumno1    → rama de trabajo del alumno 1
-alumno2    → rama de trabajo del alumno 2
+
+Tablas principales:
+
+| Tabla | Descripcion |
+|---|---|
+| `recipes` | Recetas del usuario con datos nutricionales opcionales |
+| `recipe_ingredients` | Ingredientes por receta |
+| `meal_plans` | Plan semanal por usuario y fecha de inicio |
+| `meal_plan_entries` | Receta asignada por dia y tipo de comida |
+| `favorite_recipes` | Favoritos del usuario |
+| `user_nutrition_goals` | Objetivos, preferencias y restricciones |
+| `shopping_checks` | Estado comprado/no comprado por semana |
+
+La migracion opcional para las nuevas tablas y columnas esta en:
+
+```bash
+meal-planner/supabase/meal_os_upgrade.sql
 ```
 
-**Flujo de trabajo:**
-1. Cada alumno trabaja en su rama personal
-2. Se integra a `develop` mediante Pull Requests
-3. Una vez estable, `develop` se mergea a `main`
-
----
-
-## Instalación y Uso Local
+## Instalacion local
 
 ### Requisitos
+
 - Node.js 18+
-- Cuenta en [Supabase](https://supabase.com)
+- Cuenta de Supabase
+- Proyecto Supabase configurado
 
 ### Pasos
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/meal-planner
-cd meal-planner
+git clone https://github.com/Gexstunf/PlanificadorComida.git
+cd PlanificadorComida/meal-planner
 
 # 2. Instalar dependencias
 npm install
 
 # 3. Configurar variables de entorno
-cp .env.example .env
-# Completar .env con las credenciales de Supabase
+# Crear o editar .env con las credenciales de Supabase
 
-# 4. Crear las tablas en Supabase
-# Copiar y ejecutar el SQL de /docs/database.sql en el SQL Editor de Supabase
+# 4. Ejecutar migraciones opcionales
+# Copiar meal-planner/supabase/meal_os_upgrade.sql en Supabase SQL Editor
 
-# 5. Iniciar el servidor de desarrollo
+# 5. Iniciar desarrollo
 npm run dev
 ```
 
 ### Variables de entorno
 
 ```bash
-VITE_SUPABASE_URL=https://mxntuvuxqfghlrvycwhn.supabase.co
-VITE_SUPABASE_ANON_KEY=sb_publishable_ShD_PvWx_VsMKnyz6McQiw_xfm4Lztj
+VITE_SUPABASE_URL=tu_url_de_supabase
+VITE_SUPABASE_ANON_KEY=tu_anon_key_de_supabase
 ```
 
-Obtener los valores en: **Supabase → Settings → API**
-
----
-
-## Estructura del Proyecto
-
-```
-meal-planner/
-├── src/
-│   ├── context/
-│   │   └── AuthContext.jsx        # Auth provider + useAuth hook
-│   ├── pages/
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │   ├── Recipes.jsx
-│   │   ├── Planner.jsx
-│   │   └── ShoppingList.jsx
-│   ├── components/
-│   │   ├── auth/
-│   │   │   ├── Navbar.jsx
-│   │   │   └── ProtectedRoute.jsx
-│   │   ├── recipes/
-│   │   │   ├── RecipeCard.jsx
-│   │   │   └── RecipeForm.jsx
-│   │   └── planner/
-│   ├── hooks/
-│   │   ├── useRecipes.js
-│   │   ├── usePlanner.js
-│   │   └── useShoppingList.js
-│   ├── lib/
-│   │   └── supabaseClient.js
-│   ├── styles/
-│   │   ├── global.css
-│   │   └── auth.css
-│   └── App.jsx
-├── .env.example
-├── .gitignore
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
----
-
-## Scripts Disponibles
+## Scripts
 
 ```bash
-npm run dev      # Servidor de desarrollo en localhost:5173
-npm run build    # Build de producción
-npm run preview  # Preview del build de producción
+npm run dev      # Servidor local
+npm run build    # Build de produccion
+npm run preview  # Preview del build
+npm run lint     # Lint del proyecto
+npm run test     # Tests unitarios
 ```
 
----
+## Estructura del proyecto
 
-## Decisiones Técnicas
+```text
+PlanificadorComida/
+├─ README.md
+└─ meal-planner/
+   ├─ src/
+   │  ├─ components/
+   │  │  ├─ layout/
+   │  │  ├─ planner/
+   │  │  ├─ recipes/
+   │  │  └─ ui/
+   │  ├─ context/
+   │  ├─ hooks/
+   │  ├─ lib/
+   │  │  └─ __tests__/
+   │  ├─ pages/
+   │  ├─ styles/
+   │  └─ test/
+   ├─ supabase/
+   ├─ components.json
+   ├─ package.json
+   └─ vite.config.js
+```
 
-**¿Por qué Supabase y no Firebase?**
-Supabase usa PostgreSQL relacional, lo que permite modelar correctamente las relaciones entre recetas, ingredientes y el plan semanal. El Row Level Security de PostgreSQL es más expresivo que las reglas de Firestore.
+## Validacion
 
-**¿Por qué la lista de compras no se persiste en la base de datos?**
-La lista de compras es datos derivados del plan semanal — siempre se puede recalcular. Persistirla crearía duplicación de datos y problemas de sincronización. El cálculo con `useMemo` es instantáneo y mantiene la lista siempre actualizada.
+Estado actual validado con:
 
-**¿Por qué hooks personalizados?**
-Encapsular la lógica en `useRecipes`, `usePlanner` mantiene los componentes enfocados en la presentación. Si cambia la base de datos, solo se modifican los hooks.
+```bash
+npm run lint
+npm run test
+npm run build
+```
+
+## Decisiones tecnicas
+
+- La lista de compras se deriva del plan semanal para evitar duplicacion de datos.
+- Los checks de compra pueden persistirse en Supabase, pero la app mantiene fallback local para no romperse si la migracion todavia no fue aplicada.
+- Las calorias y macros usan datos reales cuando existen; si faltan, se calculan estimaciones desde ingredientes.
+- Los favoritos y objetivos nutricionales tambien tienen fallback local mientras las tablas opcionales no existan.
+- El drag and drop usa `dnd-kit` para soportar mouse, touch y accesibilidad por teclado.

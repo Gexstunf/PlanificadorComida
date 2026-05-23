@@ -1,0 +1,57 @@
+﻿import {
+  Apple,
+  BarChart3,
+  CalendarDays,
+  ChevronLeft,
+  Clock3,
+  Flame,
+  Heart,
+  LayoutDashboard,
+  ListChecks,
+  LogOut,
+  Menu,
+  Plus,
+  Search,
+  Settings2,
+  ShoppingBasket,
+  Sparkles,
+  User,
+  Utensils,
+  Wheat,
+  Dumbbell,
+  Droplets,
+  GripVertical,
+  X,
+} from 'lucide-react'
+
+const ICONS = {
+  dashboard: LayoutDashboard,
+  calendar: CalendarDays,
+  recipes: Utensils,
+  shopping: ShoppingBasket,
+  profile: User,
+  plus: Plus,
+  search: Search,
+  spark: Sparkles,
+  chevron: ChevronLeft,
+  logout: LogOut,
+  menu: Menu,
+  collapse: ChevronLeft,
+  favorite: Heart,
+  fire: Flame,
+  protein: Dumbbell,
+  carbs: Wheat,
+  fat: Droplets,
+  clock: Clock3,
+  grip: GripVertical,
+  chart: BarChart3,
+  settings: Settings2,
+  apple: Apple,
+  close: X,
+  checklist: ListChecks,
+}
+
+export default function Icon({ name, className = '', label, size = 18, strokeWidth = 1.9 }) {
+  const LucideIcon = ICONS[name] || Sparkles
+  return <LucideIcon className={`icon ${className}`} size={size} strokeWidth={strokeWidth} aria-hidden={label ? undefined : true} aria-label={label} />
+}

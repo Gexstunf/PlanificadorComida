@@ -1,45 +1,37 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+﻿import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext.jsx'
 import ProtectedRoute from './components/auth/Protectedroute'
-import Navbar from './components/auth/Navbar'
+import AppShell from './components/layout/AppShell'
 import Profile from './pages/Profile'
-
-import Login    from './pages/Login'
+import Login from './pages/Login'
 import Register from './pages/Register'
-
-import Recipes      from './pages/Recipes'
-import Planner      from './pages/Planner'
+import Dashboard from './pages/Dashboard'
+import Recipes from './pages/Recipes'
+import Planner from './pages/Planner'
 import ShoppingList from './pages/ShoppingList'
+
+function ProtectedApp({ children }) {
+  return (
+    <ProtectedRoute>
+      <AppShell>{children}</AppShell>
+    </ProtectedRoute>
+  )
+}
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Navbar />
-        <main className="main-content">
-          <Routes>
-            {/* Rutas públicas */}
-            <Route path="/login"    element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            {/* Rutas protegidas — Alumno 2 */}
-            <Route path="/recipes" element={
-              <ProtectedRoute><Recipes /></ProtectedRoute>
-            } />
-            <Route path="/planner" element={
-              <ProtectedRoute><Planner /></ProtectedRoute>
-            } />
-            <Route path="/shopping" element={
-              <ProtectedRoute><ShoppingList /></ProtectedRoute>
-            } />
-            <Route path="/profile" element={
-              <ProtectedRoute><Profile /></ProtectedRoute>
-            } />  
-
-            {/* Redireccion por defecto */}
-            <Route path="*" element={<Navigate to="/recipes" replace />} />
-          </Routes>
-        </main>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<ProtectedApp><Dashboard /></ProtectedApp>} />
+          <Route path="/recipes" element={<ProtectedApp><Recipes /></ProtectedApp>} />
+          <Route path="/planner" element={<ProtectedApp><Planner /></ProtectedApp>} />
+          <Route path="/shopping" element={<ProtectedApp><ShoppingList /></ProtectedApp>} />
+          <Route path="/profile" element={<ProtectedApp><Profile /></ProtectedApp>} />
+          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        </Routes>
       </AuthProvider>
     </BrowserRouter>
   )
