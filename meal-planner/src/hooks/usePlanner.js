@@ -13,34 +13,58 @@ export function usePlanner(userId, selectedWeekStart) {
     const [planId, setPlanId] = useState(null)
     const [entries, setEntries] = useState({})
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const weekStart = selectedWeekStart ?? getWeekStart()
 
     const fetchPlan = useCallback(async () => {
-        if (!userId) return
+        if (!userId) {
+            setPlanId(null)
+            setEntries({})
+            setLoading(false)
+            return
+        }
         setLoading(true)
+        setError(null)
 
-        let { data: plan } = await supabase
+        let { data: plan, error: planError } = await supabase
             .from('meal_plans')
             .select('id')
             .eq('user_id', userId)
             .eq('week_start', weekStart)
             .maybeSingle()
 
+        if (planError) {
+            setError(planError.message)
+            setLoading(false)
+            return
+        }
+
         if (!plan) {
-            const { data: newPlan } = await supabase
+            const { data: newPlan, error: createError } = await supabase
                 .from('meal_plans')
                 .insert({ user_id: userId, week_start: weekStart })
                 .select()
                 .single()
+            if (createError) {
+                setError(createError.message)
+                setLoading(false)
+                return
+            }
             plan = newPlan
         }
 
         setPlanId(plan.id)
 
-        const { data: planEntries } = await supabase
+        const { data: planEntries, error: entriesError } = await supabase
             .from('meal_plan_entries')
             .select('*')
             .eq('meal_plan_id', plan.id)
+
+        if (entriesError) {
+            setError(entriesError.message)
+            setLoading(false)
+            return
+        }
 
         const map = {}
         planEntries?.forEach(e => {
@@ -61,9 +85,20 @@ export function usePlanner(userId, selectedWeekStart) {
     }, [fetchPlan])
 
     const setEntry = async (dayOfWeek, mealType, recipeId) => {
+        if (!planId) return
         const key = `${dayOfWeek}-${mealType}`
 
         setEntries(prev => ({ ...prev, [key]: recipeId }))
+
+        if (!recipeId) {
+            await supabase
+                .from('meal_plan_entries')
+                .delete()
+                .eq('meal_plan_id', planId)
+                .eq('day_of_week', dayOfWeek)
+                .eq('meal_type', mealType)
+            return
+        }
 
         await supabase
             .from('meal_plan_entries')
@@ -73,5 +108,5 @@ export function usePlanner(userId, selectedWeekStart) {
         )
     }
 
-    return { entries, loading, setEntry, planId }
+    return { entries, loading, error, setEntry, planId }
 }

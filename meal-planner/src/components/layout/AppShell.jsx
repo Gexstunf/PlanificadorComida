@@ -69,7 +69,7 @@ export default function AppShell({ children }) {
       </div>
 
       <nav className="mobile-nav" aria-label="Mobile navigation">
-        {NAV_ITEMS.slice(0, 4).map(item => (
+        {NAV_ITEMS.map(item => (
           <NavLink key={item.to} to={item.to}>
             <Icon name={item.icon} />
             <span>{item.label}</span>

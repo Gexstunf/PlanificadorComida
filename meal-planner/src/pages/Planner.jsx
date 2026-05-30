@@ -51,7 +51,7 @@ export default function Planner() {
             <article><span>Daily kcal</span><strong>{analytics.averages.calories}</strong></article>
             <article><span>Protein</span><strong>{analytics.averages.protein}g</strong></article>
           </div>
-          {loading ? <div className="planner-skeleton"><Skeleton /><Skeleton /><Skeleton /></div> : <PlannerGrid recipes={recipes} entries={entries} onEntryChange={handleChange} dockRecipes={suggestedRecipes} />}
+          {loading ? <div className="planner-skeleton"><Skeleton /><Skeleton /><Skeleton /></div> : <PlannerGrid recipes={recipes} entries={entries} onEntryChange={handleChange} dockRecipes={suggestedRecipes} mobileDay={mobileDay} />}
         </section>
       </section>
     </div>

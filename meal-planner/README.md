@@ -1,16 +1,65 @@
-# React + Vite
+# Meal Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicacion web serverless para planificar comidas semanales, administrar recetas, calcular listas de compras y seguir objetivos nutricionales.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React + Vite
+- React Router
+- Supabase Auth
+- Supabase PostgreSQL
+- Supabase Storage para imagenes de recetas
+- Vercel para despliegue
+- Vitest y ESLint para validacion
 
-## React Compiler
+## Configuracion local
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instalar dependencias:
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Crear `.env`:
+
+```bash
+VITE_SUPABASE_URL=tu_url_de_supabase
+VITE_SUPABASE_ANON_KEY=tu_anon_key_de_supabase
+```
+
+3. Crear la base de datos en Supabase ejecutando:
+
+```text
+supabase/schema.sql
+```
+
+4. Iniciar la app:
+
+```bash
+npm run dev
+```
+
+## Scripts
+
+```bash
+npm run dev
+npm run build
+npm run lint
+npm run test
+```
+
+## Funcionalidades
+
+- Registro, inicio y cierre de sesion.
+- Rutas protegidas por usuario autenticado.
+- CRUD de recetas con ingredientes e imagen.
+- Planificador semanal asociado al usuario.
+- Lista de compras generada desde el plan.
+- Favoritos, objetivos nutricionales y preferencias.
+- Persistencia en Supabase con Row Level Security.
+
+## Base de datos
+
+El esquema completo esta en `supabase/schema.sql`.
+
+La migracion `supabase/meal_os_upgrade.sql` queda como referencia historica para proyectos que ya tenian las tablas base creadas y solo necesitaban agregar las funciones nuevas.

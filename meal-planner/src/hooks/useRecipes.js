@@ -23,8 +23,13 @@ export function useRecipes(userId) {
   const [error, setError] = useState(null)
 
   const fetchRecipes = useCallback(async () => {
-    if (!userId) return
+    if (!userId) {
+      setRecipes([])
+      setLoading(false)
+      return
+    }
     setLoading(true)
+    setError(null)
     const { data, error } = await supabase
       .from('recipes')
       .select(`*, recipe_ingredients (*)`)

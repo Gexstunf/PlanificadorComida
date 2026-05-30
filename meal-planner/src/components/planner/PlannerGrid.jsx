@@ -21,9 +21,9 @@ function parseDragId(id) {
   return { source, recipeId, dayIndex: dayIndex === null ? null : Number(dayIndex), mealKey }
 }
 
-function DroppableSlot({ id, children, filled }) {
+function DroppableSlot({ id, children, filled, mobileActive }) {
   const { isOver, setNodeRef } = useDroppable({ id })
-  return <div ref={setNodeRef} className={`meal-slot ${filled ? 'is-filled' : ''} ${isOver ? 'is-over' : ''}`}>{children}</div>
+  return <div ref={setNodeRef} className={`meal-slot ${filled ? 'is-filled' : ''} ${isOver ? 'is-over' : ''} ${mobileActive ? 'is-mobile-active' : ''}`}>{children}</div>
 }
 
 function DraggableMeal({ recipe, source, children }) {
@@ -55,7 +55,7 @@ function MealCard({ recipe, onRemove, compact = false }) {
   )
 }
 
-export default function PlannerGrid({ recipes, entries, onEntryChange, dockRecipes = [] }) {
+export default function PlannerGrid({ recipes, entries, onEntryChange, dockRecipes = [], mobileDay = 0 }) {
   const [activeRecipe, setActiveRecipe] = useState(null)
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -90,7 +90,7 @@ export default function PlannerGrid({ recipes, entries, onEntryChange, dockRecip
       )}
 
       <div className="planner-board" aria-label="Weekly meal planner">
-        <div className="planner-board__days"><span />{DAYS.map((day, index) => <strong key={day}>{day}<small>Day {index + 1}</small></strong>)}</div>
+        <div className="planner-board__days"><span />{DAYS.map((day, index) => <strong key={day} className={mobileDay === index ? 'is-mobile-active' : ''}>{day}<small>Day {index + 1}</small></strong>)}</div>
         {MEALS.map(meal => (
           <div className="planner-row" key={meal.key}>
             <div className="planner-row__label"><span>{meal.label}</span></div>
@@ -99,7 +99,7 @@ export default function PlannerGrid({ recipes, entries, onEntryChange, dockRecip
               const recipeId = entries[key]
               const recipe = getRecipe(recipeId)
               return (
-                <DroppableSlot key={`${day}-${meal.key}`} id={`${dayIndex}|${meal.key}`} filled={Boolean(recipe)}>
+                <DroppableSlot key={`${day}-${meal.key}`} id={`${dayIndex}|${meal.key}`} filled={Boolean(recipe)} mobileActive={mobileDay === dayIndex}>
                   {recipe ? (
                     <DraggableMeal recipe={recipe} source={`${dayIndex}|${meal.key}`}>
                       <MealCard recipe={recipe} onRemove={() => onEntryChange(dayIndex, meal.key, null)} />

@@ -111,7 +111,13 @@ Tablas principales:
 | `user_nutrition_goals` | Objetivos, preferencias y restricciones |
 | `shopping_checks` | Estado comprado/no comprado por semana |
 
-La migracion opcional para las nuevas tablas y columnas esta en:
+El esquema completo para crear la base de datos desde cero esta en:
+
+```bash
+meal-planner/supabase/schema.sql
+```
+
+La migracion opcional para proyectos que ya tenian las tablas base creadas esta en:
 
 ```bash
 meal-planner/supabase/meal_os_upgrade.sql
@@ -138,8 +144,8 @@ npm install
 # 3. Configurar variables de entorno
 # Crear o editar .env con las credenciales de Supabase
 
-# 4. Ejecutar migraciones opcionales
-# Copiar meal-planner/supabase/meal_os_upgrade.sql en Supabase SQL Editor
+# 4. Crear la base de datos
+# Copiar meal-planner/supabase/schema.sql en Supabase SQL Editor
 
 # 5. Iniciar desarrollo
 npm run dev
