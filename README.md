@@ -6,6 +6,51 @@ Aplicacion web fullstack serverless para planificar comidas semanales, gestionar
 
 [Ver aplicacion en produccion](https://planificador-comida.vercel.app/login)
 
+## Calidad y CI/CD
+
+El repositorio incluye un pipeline de GitHub Actions en `.github/workflows/ci-cd.yml`.
+
+El workflow se ejecuta en cada push o pull request hacia `main` y valida:
+
+```bash
+npm run lint
+npm run test
+npm run build
+npm run test:e2e
+```
+
+El deploy a Vercel se ejecuta automaticamente solo en push a `main` y solo si todos los pasos de calidad pasan correctamente.
+
+Para que el deploy funcione desde GitHub Actions hay que configurar estos secrets en GitHub:
+
+```text
+VERCEL_TOKEN
+VERCEL_ORG_ID
+VERCEL_PROJECT_ID
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+```
+
+La estrategia de calidad, las decisiones tecnicas, los tests y las limitaciones estan documentados en [CALIDAD.md](CALIDAD.md).
+
+## Flujo de trabajo
+
+Todo cambio debe estar trazado en GitHub:
+
+- Crear un issue antes de empezar una funcionalidad, mejora o bug.
+- Crear una rama con convencion consistente:
+  - `feature/nombre-feature`
+  - `fix/nombre-bug`
+  - `docs/nombre-documentacion`
+  - `test/nombre-test`
+- Abrir un pull request hacia `main` o `develop`, segun corresponda.
+- Referenciar el issue en el PR con `Closes #numero`.
+- Esperar que pase el workflow de calidad.
+- Pedir revision al otro integrante.
+- Dejar al menos un comentario de revision real antes de aprobar y mergear.
+
+No se mergean cambios directo a `main`.
+
 ## Descripcion
 
 Meal Planner es una plataforma de productividad y nutricion construida con React, Vite y Supabase. La app permite organizar recetas, planificar la semana completa, calcular una lista de compras inteligente y visualizar metricas nutricionales con una interfaz oscura, moderna y orientada a uso diario.
@@ -166,6 +211,7 @@ npm run build    # Build de produccion
 npm run preview  # Preview del build
 npm run lint     # Lint del proyecto
 npm run test     # Tests unitarios
+npm run test:e2e # Test end-to-end con Playwright
 ```
 
 ## Estructura del proyecto
