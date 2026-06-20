@@ -4,6 +4,7 @@ const PORT = process.env.PLAYWRIGHT_PORT || 4173
 
 export default defineConfig({
   testDir: './tests/e2e',
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || './test-results',
   fullyParallel: true,
   reporter: [['list']],
   use: {
