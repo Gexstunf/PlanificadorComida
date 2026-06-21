@@ -62,9 +62,6 @@ jobs:
     needs: quality
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    defaults:
-      run:
-        working-directory: meal-planner
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -82,6 +79,7 @@ jobs:
           cache-dependency-path: meal-planner/package-lock.json
 
       - name: Install dependencies
+        working-directory: meal-planner
         run: npm ci
 
       - name: Install Vercel CLI
