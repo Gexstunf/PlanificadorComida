@@ -81,12 +81,19 @@ Cada PR debe:
 
 El historial de issues y PRs queda como evidencia de la trazabilidad pedida en el TP.
 
+## Modalidad de trabajo individual
+
+El TP estaba planteado originalmente para equipos de dos personas. Durante el desarrollo, el segundo integrante cambio de equipo, por lo que la entrega final fue completada de forma individual.
+
+Para mantener el criterio de trazabilidad se conservaron issues, ramas, commits y pull requests en la medida posible. La principal limitacion frente al enunciado original es que no hubo revision cruzada real de otro integrante en la etapa final. Esta situacion queda documentada como una excepcion del proceso y como una deuda del flujo de trabajo, no como una practica deseada para un proyecto en equipo.
+
 ## Limitaciones y deuda tecnica
 
 - El test E2E actual cubre seguridad de rutas privadas, pero todavia no cubre un flujo completo con datos reales como crear una receta y verla en el recetario. Para eso haria falta una cuenta de prueba estable o mocks controlados de Supabase.
 - La cobertura no esta configurada como umbral obligatorio. Se podria agregar `vitest --coverage` y exigir un porcentaje minimo sobre `src/lib`.
 - No se integro Sentry ni otro servicio de monitoreo de errores. Seria una mejora util para capturar errores reales de produccion.
 - El pipeline depende de que los secrets de GitHub esten correctamente cargados. Si falta un secret de Vercel, el job de calidad puede pasar, pero el deploy va a fallar.
+- La revision cruzada quedo limitada porque la entrega final se completo individualmente despues del cambio de equipo del segundo integrante.
 - El proyecto todavia tiene varias vulnerabilidades reportadas por `npm audit` en dependencias transitivas. No se aplico `npm audit fix --force` porque podria introducir cambios incompatibles.
 
 ## Uso de IA
